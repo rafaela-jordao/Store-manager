@@ -1,5 +1,5 @@
 const express = require('express');
-
+// iniciando o projeto store manager
 const app = express();
 
 // não remova esse endpoint, é para o avaliador funcionar
