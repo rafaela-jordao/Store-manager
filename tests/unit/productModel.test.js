@@ -1,31 +1,30 @@
-const { expect } = require('chai');
+const { expect, use } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../models/connection');
+const chaiAsPromised = require('chai-as-promised');
 const productModel = require('../../models/productModel');
 const { listMock, mockObj } = require('../../mocks/product.mock');
 
-describe('ProductModel', function () {
+use(chaiAsPromised);
+
+describe('ProductModel', () => {
   beforeEach(function () {
     sinon.restore();
   });
 
-  describe('#list', function () {
+  describe('#list', ()=> {
     const mockData = listMock;
-
-    it('deve retornar um array com todos os produtos', async function () {
+// forma usando chaiAsPromised
+    it('deve retornar um array com todos os produtos', () => {
       sinon.stub(connection, 'execute').resolves([mockData]);
-      const list = await productModel.list();
-      expect(list).to.be.eq(mockData);
-    }); 
-  });
-
-  describe('#findById', function () {
-    const mockData = mockObj;
-
-    it('deve retornar um objeto ao informar o id', async function () {
-      sinon.stub(connection, 'execute').resolves([[mockObj]]);
-      const findById = await productModel.findById(2);
-      expect(findById).to.be.deep.eq(mockObj);
+      expect(productModel.list()).to.eventually.deep.eq(mockData);  // com o eventually posso apenas chamar a função productModel sem o uso do async/await.  
     });
   });
+
+  describe('#findById', () => {
+    it('deve retornar um objeto ao informar o id', async () => {
+      sinon.stub(connection, 'execute').resolves([[mockObj]]);
+      expect(productModel.findById(2)).to.eventually.be.deep.equal(mockObj);
+    });
+  }); 
 });
