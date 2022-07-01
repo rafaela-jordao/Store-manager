@@ -14,6 +14,7 @@ const productService = {
 
   async findById(id) {
     const products = await productModel.findById(id);
+    if (!products) return { error: { status: 404, message: 'Product not found' } };
     return products;
   },
 };
