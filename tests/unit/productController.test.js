@@ -4,6 +4,7 @@ const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
 const { listMock, mockObj } = require('../../mocks/product.mock');
 const { expect, use } = require('chai');
+const { ValidationError } = require('joi');
 
 use(chaiAsPromised);
 
@@ -79,4 +80,35 @@ describe('ProductController', () => {
       expect(res.json.calledWith({ message: 'Product not found' })).to.be.equal(true);
     });
   });
+
+  describe('#createProduct', () => {
+    it('ao mandar um req.body válido', async () => {
+      const data = { id: 4, name: 'laço da mulher maravilha' };
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.body = { name: 'laço da mulher maravilha' };
+
+      sinon.stub(productService, 'createProduct').resolves(true);
+
+      await productController.createProduct(req, res);
+
+      expect(res.status.calledWith(201)).to.be.equal(true);
+      expect(res.json.calledWith(data)).to.be.equal(false);
+    });
+
+    it('ao mandar um req.body inválido', () => {
+      const req = {};
+      const res = {};
+
+      req.body = { name: '' };
+
+      expect(productController.createProduct(req, res))
+        .to.rejectedWith(ValidationError)
+    });
+  })
 })
+  

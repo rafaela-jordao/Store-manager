@@ -14,6 +14,18 @@ const productService = {
     return value;
   }, 
 
+  validateBody: (params) => {
+    const schema = Joi.object({
+      name: Joi.string().required(),
+    });
+
+    const { error, value } = schema.validate(params);
+
+    if (error) throw error;
+
+    return value;
+  },
+
   // chama a função productModel
   async list() {
     const products = await productModel.list();
@@ -24,6 +36,11 @@ const productService = {
     const products = await productModel.findById(id);
     return products;
   }, 
+
+  async createProduct({ name }) {
+    const id = await productModel.createProduct({ name });
+    return id;
+  },
 };
 
 module.exports = productService;

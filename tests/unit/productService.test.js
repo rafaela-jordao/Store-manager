@@ -38,4 +38,29 @@ describe('ProductService', () => {
     });
   });
 
+  describe('#validateBody', () => {
+    it('se mandar um objeto válido deve retonar um objeto válido', () => {
+      const object = productService.validateBody({ name: 'laço da mulher maravilha' });
+      expect(object).to.be.deep.eq({ name: 'laço da mulher maravilha' });
+    });
+
+    it('se mandar um nome vazio no body deve disparar um erro', () => {
+      expect(() => productService.validateBody({ name: '' })).to
+        .throws('"name" is not allowed to be empty');
+    });
+
+    it('se mandar um objeto sem nome no body deve disparar um erro', () => {
+      expect(() => productService.validateBody({ })).to
+        .throws('"name" is required');
+    });
+  });
+
+  describe('#createProduct', () => {
+    it('Ao mandar um dado válido deve salvar no banco', async () => {
+      sinon.stub(productModel, 'createProduct').resolves(4);
+      const id = await productService.createProduct({ name: 'laço da mulher maravilha' });
+      expect(id).to.be.eq(4);
+    });
+  });
+
 })

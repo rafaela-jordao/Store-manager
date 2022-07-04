@@ -16,7 +16,16 @@ const productController = {
     if (!products) return res.status(404).json({ message: 'Product not found' });
 
     res.status(200).json(products);
-  },  
+  }, 
+  
+  async createProduct(req, res) {
+    const value = productService.validateBody(req.body);
+    const id = await productService.createProduct(value);
+
+    const result = { id, ...value };
+
+    res.status(201).json(result);
+  },
 };
 
 module.exports = productController;
