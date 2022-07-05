@@ -41,4 +41,12 @@ describe('ProductModel', () => {
       expect(value).to.be.equal(null);
     });
   });
+
+  describe('#editProduct', () => {
+    it('deve ser capaz de editar se mandar um id e um objeto', async () => {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1}]);
+      const value = await productModel.editProduct(1, 'Martelo do Batman');
+      expect(value).to.be.equal(1);
+    });
+  });
   });

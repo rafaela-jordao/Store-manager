@@ -63,4 +63,24 @@ describe('ProductService', () => {
     });
   });
 
+  describe('#editProduct', () => {
+    it('ao tentar editar um produto mandando um objeto deve editar', async () => {
+      sinon.stub(productModel, 'editProduct').resolves(true);
+      const result = await productService.editProduct(1, 'Martelo do Batman');
+      expect(result).to.be.deep.eq({ id: 1, name: 'Martelo do Batman'});
+      
+    });
+
+    it('ao tentar editar um produto com id inválido', async () => {
+      sinon.stub(productModel, 'editProduct').resolves(false);
+      const result = await productService.editProduct('teste', 'Martelo do Batman');
+      expect(result).to.be.deep.eq(false);
+    });
+    it('ao tentar editar um produto com "name" inválido', async () => {
+      sinon.stub(productModel, 'editProduct').resolves(true);
+      const result = await productService.editProduct(1, {});
+      expect(result).to.be.deep.eq(false);
+    })
+  });
+
 })

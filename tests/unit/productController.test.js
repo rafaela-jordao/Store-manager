@@ -109,6 +109,59 @@ describe('ProductController', () => {
       expect(productController.createProduct(req, res))
         .to.rejectedWith(ValidationError)
     });
-  })
+  }); 
+
+  describe('#editProduct', () => {
+    it('ao tentar editar um id inválido', async () => {
+    const req = {};
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub();
+
+      req.params = { id: '5' };
+      req.body = { name: 'Martelo de Thor'}
+    
+    sinon.stub(productService, 'editProduct').resolves(false);
+
+      await productController.editProduct(req, res);
+      expect(res.status.calledWith(404)).to.be.eq(true);
+      expect(res.json.calledWith({ message: 'Product not found' })).to.be.eq(true);
+  });
+
+  it('ao tentar editar com um body inválido', async () => {
+    const req = {};
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub();
+
+    req.params = { id: 1 };
+    req.body = { name: 'Mart'};
+
+    sinon.stub(productService, 'editProduct').resolves(false);
+
+      await productController.editProduct(req, res);
+      expect(res.status.calledWith(404)).to.be.eq(true);
+      expect(res.json.calledWith({ message: 'Product not found' })).to.be.eq(true);
+  });
+
+  it('ao tentar editar com um id e um body válido', async () => {
+    const req = {};
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub();
+    
+    req.params = { id: 1 };
+    req.body = { name: 'Martelo do Batman' };
+
+    sinon.stub(productService, 'editProduct').resolves(1);
+
+    await productController.editProduct(req, res);
+
+    expect(res.status.calledWith(200)).to.be.equal(true);
+  }); 
+});
 })
   

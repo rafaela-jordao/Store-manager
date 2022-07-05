@@ -26,6 +26,18 @@ const productController = {
 
     res.status(201).json(result);
   },
+
+  async editProduct(req, res) {
+    const { id } = await productService.validateParamsId(req.params);
+    const { name } = await productService.validateBody(req.body);
+
+    const update = await productService.editProduct(id, name);
+
+    if (!update) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    return res.status(200).json(update);
+  },
 };
 
 module.exports = productController;
