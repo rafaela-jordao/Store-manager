@@ -24,18 +24,17 @@ const productsModel = {
     return insertId;
   },
 
-/*   async exists(id) {
-    const sql = 'SELECT * FROM StoreManager WHERE id = ?';
-    const [[exists]] = await connection.execute(sql, [id]);
-    return !!exists;
-  }, */
-
   async editProduct(id, name) {
     const sql = 'UPDATE StoreManager.products SET name = ? WHERE id = ?';
     const [{ affectedRows }] = await connection.execute(sql, [name, id]);
     return affectedRows;
   },
-  
+
+  async delete(id) {
+    const sql = 'DELETE FROM StoreManager.products WHERE id = ?';
+    const [{ affectedRows }] = await connection.execute(sql, [id]);
+    return affectedRows;
+  }, 
 };
 
 module.exports = productsModel;

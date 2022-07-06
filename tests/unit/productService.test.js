@@ -83,4 +83,17 @@ describe('ProductService', () => {
     })
   });
 
+  describe('#delete', () => {
+    it('ao tentar deletar um produto com id válido', async () => {
+      sinon.stub(productModel, 'delete').resolves(1);
+      const remove = await productService.delete(1);
+      expect(remove).to.be.deep.equal({ id: 1 });
+    });
+
+    it('ao tentar deletar um produto com id inválido', async () => {
+      sinon.stub(productModel, 'delete').resolves(false);
+      const result = await productService.delete('teste', 'Martelo do Batman');
+      expect(result).to.be.deep.eq(false);
+    });
+  });
 })

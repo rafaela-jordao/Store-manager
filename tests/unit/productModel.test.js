@@ -49,4 +49,12 @@ describe('ProductModel', () => {
       expect(value).to.be.equal(1);
     });
   });
+
+  describe('#delete', () => {
+    it('deve ser capaz de deletar um produto com o id informado', async () => {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+      const result = await productModel.delete(1);
+      expect(result).to.be.equal(1);
+    });
+  });
   });

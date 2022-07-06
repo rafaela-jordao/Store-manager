@@ -1,10 +1,12 @@
 const productService = require('../services/productService');
 
+const NotFound = { message: 'Product not found' };
+
 const productController = {
   async list(req, res) {
     const products = await productService.list();
 
-    if (!products) return res.status(404).json({ message: 'Product not found' });
+    if (!products) return res.status(404).json(NotFound);
 
     res.status(200).json(products);
   },
@@ -13,7 +15,7 @@ const productController = {
     const { id } = await productService.validateParamsId(req.params);
     const products = await productService.findById(id);
 
-    if (!products) return res.status(404).json({ message: 'Product not found' });
+    if (!products) return res.status(404).json(NotFound);
 
     res.status(200).json(products);
   }, 
@@ -34,10 +36,21 @@ const productController = {
     const update = await productService.editProduct(id, name);
 
     if (!update) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json(NotFound);
     }
     return res.status(200).json(update);
   },
+
+  async delete(req, res) {
+    const { id } = await productService.validateParamsId(req.params);
+   
+    const productId = await productService.delete(id);
+
+    if (!productId) {
+      return res.status(404).json(NotFound);
+    }
+    return res.status(204).end();
+  }, 
 };
 
 module.exports = productController;

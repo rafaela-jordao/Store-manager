@@ -26,15 +26,6 @@ const productService = {
     return value;
   },
 
- /*  async checkIfExists(id) {
-    const exists = await productModel.exists(id);
-    if (!exists) {
-      throw new NotFoundError('Director not found');
-    }
-
-    return true;
-  },  */
-
   // chama a função productModel
   async list() {
     const products = await productModel.list();
@@ -59,6 +50,14 @@ const productService = {
     if (!update) return false;
 
     return { id, name };
+  },
+
+  async delete(id) {
+    const productId = await productModel.delete(id);
+
+    if (!productId) return false;
+
+    return { id };
   },
 };
 

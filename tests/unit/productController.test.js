@@ -162,6 +162,38 @@ describe('ProductController', () => {
 
     expect(res.status.calledWith(200)).to.be.equal(true);
   }); 
-});
+  });
+
+   describe('#delete', () => {
+    it('ao deletar um produto com id válido', async () => {
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+
+      req.params = { id: 1 }
+
+      sinon.stub(productService, 'delete').resolves(1);
+
+      await productController.delete(req, res);
+      expect(res.status.calledWith(204)).to.be.equal(true);
+    });
+
+    it('ao tentar deletar um produto com id inválido', async () => {
+    const req = {};
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub();
+
+      req.params = { id: 1001 };
+      req.body = { name: 'Martelo de Thor'}
+    
+    sinon.stub(productService, 'delete').resolves(false);
+
+      await productController.delete(req, res);
+      expect(res.status.calledWith(404)).to.be.eq(true);
+  });
+  });
 })
   
