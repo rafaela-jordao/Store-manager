@@ -35,13 +35,14 @@ const productsModel = {
     const [{ affectedRows }] = await connection.execute(sql, [id]);
     return affectedRows;
   }, 
-
-  async search(name) {
+ 
+  // falta fazer o teste de camada
+  /* async search(name) {
     const exempleQuery = `%${name}%`;
     const sql = 'SELECT * FROM StoreManager.products WHERE name LIKE ?';
     const [result] = await connection.execute(sql, [exempleQuery]);
     return result;
-  },
+  }, */
 };
 
 module.exports = productsModel;

@@ -52,12 +52,13 @@ const productController = {
     return res.sendStatus(204);
   }, 
 
+  /* // falta fazer o teste de camada
   async search(req, res) {
     const { q } = req.query;
 
     const searchResult = await productService.search(q);
     res.json(searchResult);
-  },
+  }, */
 };
 
 module.exports = productController;

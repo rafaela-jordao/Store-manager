@@ -60,10 +60,11 @@ const productService = {
     return { id };
   },
 
+  /* // falta fazer o teste de camada
   async search(name) {
     const result = await productModel.search(name);
     return result;
-  },
+  }, */
 };
 
 module.exports = productService;
