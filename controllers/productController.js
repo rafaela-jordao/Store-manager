@@ -49,7 +49,7 @@ const productController = {
     if (!productId) {
       return res.status(404).json(NotFound);
     }
-    return res.status(204).end();
+    return res.sendStatus(204);
   }, 
 };
 

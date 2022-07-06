@@ -169,14 +169,14 @@ describe('ProductController', () => {
       const req = {};
       const res = {};
 
-      res.status = sinon.stub().returns(res);
+      res.sendStatus = sinon.stub().returns(res);
 
       req.params = { id: 1 }
 
       sinon.stub(productService, 'delete').resolves(1);
 
       await productController.delete(req, res);
-      expect(res.status.calledWith(204)).to.be.equal(true);
+      expect(res.sendStatus.calledWith(204)).to.be.equal(true);
     });
 
     it('ao tentar deletar um produto com id inválido', async () => {
