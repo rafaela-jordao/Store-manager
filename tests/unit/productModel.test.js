@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const connection = require('../../models/connection');
 const chaiAsPromised = require('chai-as-promised');
 const productModel = require('../../models/productModel');
-const { listMock, mockObj } = require('../../mocks/product.mock');
+const { listMock, mockObj, searchMock } = require('../../mocks/product.mock');
 
 use(chaiAsPromised);
 
